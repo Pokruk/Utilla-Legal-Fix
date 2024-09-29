@@ -1,3 +1,17 @@
+# Utila-Legal-Fix
+This fix is an **open-source** and **legal** version of the Utilla
+
+_**The last tested Gorilla Tag update: 20.09.2024**_
+
+## FAQ
+### Why don't you just make a pull request to the original repository?
+Because it's abandoned and pull requests have not been reviewed for months, and this is the main reason why so many cheaters recently out there - there was no working **legal** Utilla version anywhere
+### Why doesn't my mods work?
+Make sure you are in a modded lobby  
+This is the **legal** Utilla fix, so it's intended to work only in modded lobby. **Cheating is bad**
+
+---
+
 # Utilla
 
 A PC library for Gorilla Tag that handles various room-related things (and more?)
