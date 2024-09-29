@@ -93,9 +93,9 @@ namespace Utilla.Models
 			GamemodeString = ID;
 		}
 
-        public static implicit operator ModeSelectButtonInfo(Gamemode gamemode)
+		public static implicit operator ModeSelectButtonInfoData(Gamemode gamemode)
 		{
-			return new ModeSelectButtonInfo()
+			return new ModeSelectButtonInfoData
 			{
 				Mode = gamemode.ID,
 				ModeTitle = gamemode.DisplayName,
@@ -104,7 +104,7 @@ namespace Utilla.Models
 			};
 		}
 
-		public static implicit operator Gamemode(ModeSelectButtonInfo modeSelectButtonInfo)
+		public static implicit operator Gamemode(ModeSelectButtonInfoData modeSelectButtonInfo)
 		{
 			return new Gamemode(modeSelectButtonInfo.Mode, modeSelectButtonInfo.ModeTitle);
 		}

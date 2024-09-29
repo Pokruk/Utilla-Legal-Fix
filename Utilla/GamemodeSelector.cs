@@ -21,7 +21,7 @@ namespace Utilla
 
         ModeSelectButton[] modeSelectButtons = Array.Empty<ModeSelectButton>();
 
-		ModeSelectButtonInfo[] baseSelectionInfo;
+		ModeSelectButtonInfoData[] baseSelectionInfo;
 
         static int _globalSelectionPage;
 
@@ -58,7 +58,7 @@ namespace Utilla
 
 			layout = buttonLayout.GetComponent<GameModeSelectorButtonLayout>();
 
-            baseSelectionInfo = (ModeSelectButtonInfo[])AccessTools.Field(layout.GetType(), "info").GetValue(layout);
+            baseSelectionInfo = ((GameModeSelectorButtonLayoutData)AccessTools.Field(((object)layout).GetType(), "data").GetValue(layout)).Info;
 
             CreatePageButtons(buttons.First().gameObject);
 
@@ -78,7 +78,7 @@ namespace Utilla
 
             for (int i = 0; i < modeSelectButtons.Length; i++)
 			{
-				ModeSelectButtonInfo info = baseSelectionInfo[i];
+				ModeSelectButtonInfoData info = baseSelectionInfo[i];
                 baseGamemodes.Add(info);
             }
 
@@ -86,13 +86,23 @@ namespace Utilla
 
 			foreach(Gamemode bm in baseGamemodes)
 			{
-				bool isInfection = bm.DisplayName.ToUpper() == "INFECTION";
-
-                string moddedTitle = isInfection ? "MODDED" : $"MODDED {bm.ID.ToUpper()}"; // i.e, INFECTION = MODDED, PAINTBRAWL (displayname) = MODDED BATTLE (id)
-
-                BaseGamemode baseMode = isInfection ? BaseGamemode.Infection : Enum.Parse<BaseGamemode>(textInfo.ToTitleCase(bm.ID.ToLower())); // i.e (referencing the titlecase), INFECTION = Infection, PAINTBRAWL (displayname) = Paintbrawl
-
-                moddedGamemodes.Add(new Gamemode($"MODDED_{bm.ID.ToUpper()}", moddedTitle, baseMode));
+                BaseGamemode baseGamemode;
+                string displayName;
+                switch (bm.DisplayName.ToUpper()) {
+	                case "PAINTBRAWL":
+		                baseGamemode = BaseGamemode.Battle;
+		                displayName = "MODDED BATTLE";
+		                break;
+	                case "INFECTION":
+		                baseGamemode = BaseGamemode.Infection;
+		                displayName = "MODDED";
+		                break;
+	                default:
+		                baseGamemode = Enum.Parse<BaseGamemode>(textInfo.ToTitleCase(bm.ID.ToLower()));
+		                displayName = "MODDED " + bm.ID.ToUpper();
+		                break;
+                }
+                moddedGamemodes.Add(new Gamemode($"MODDED_{bm.ID.ToUpper()}", displayName, baseGamemode));
             }
         }
 

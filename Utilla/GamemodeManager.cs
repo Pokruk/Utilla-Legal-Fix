@@ -125,8 +125,8 @@ namespace Utilla
 
 			moddedGameModesObject = new GameObject("Modded Game Modes");
 			moddedGameModesObject.transform.SetParent(gtGameModeInstance.gameObject.transform);
-
-			var currentGameMode = PlayerPrefs.GetString("currentGameMode", "INFECTION");
+			
+			var currentGameMode = PlayerPrefs.GetString("currentGameMode");
 
 			GorillaComputer.instance.currentGameMode.Value = currentGameMode;
 
@@ -364,8 +364,8 @@ namespace Utilla
 			foreach (var pluginInfo in pluginInfos)
 			{
 				UtillaLogging.Info(string.Join(", ", pluginInfo.Gamemodes.Select(gm => gm.GamemodeString)));
-				if (pluginInfo.Gamemodes.Any(x => gamemode.Contains(x.GamemodeString)))
-				{
+                var isModed = pluginInfo.Gamemodes.Any(x => gamemode.Contains(x.GamemodeString));
+                if (isModed) {
 					try
 					{
 						pluginInfo.OnGamemodeJoin?.Invoke(gamemode);
@@ -382,9 +382,9 @@ namespace Utilla
 		{
 			string gamemode = args.Gamemode;
 
-			foreach (var pluginInfo in pluginInfos)
-			{
-				if (pluginInfo.Gamemodes.Any(x => gamemode.Contains(x.GamemodeString)))
+			foreach (var pluginInfo in pluginInfos) {
+				var isModed = pluginInfo.Gamemodes.Any(x => gamemode.Contains(x.GamemodeString));
+                if (isModed)
 				{
 					try
 					{
